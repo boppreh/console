@@ -74,6 +74,16 @@ def get_valid_key(expected_keys):
         if key in expected_keys:
             return key
 
+def process_input(function_by_key):
+    """
+    Given a map key -> function, loops receiving user input and invoking the
+    respective functions. Unknown keys are ignored.
+
+    To exit the loop, raise an exception from the invoked function.
+    """
+    while True:
+        key = get_valid_key(function_by_key)
+        function_by_key[key]()
 
 if __name__ == '__main__':
     while True:
