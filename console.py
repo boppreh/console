@@ -50,6 +50,8 @@ except ImportError:
         window.clrtobot()
         window.refresh()
 
+current_text = ''
+
 def display(text):
     """
     Clears the screen and refills it with the given text.
@@ -57,7 +59,23 @@ def display(text):
     while not isinstance(text, str):
         text = ''.join(text)
 
+    global current_text
+    current_text = text
+
     return _display(text)
+
+def set_display(line, column, text):
+    """
+    Changes only a portion of the display, keeping the rest constant.
+
+    This function assumes the display has been set by the function `display`.
+    Multi-character replacements are supported, but multi-line ones not.
+    """
+    lines = current_text.split('\n')
+    x, y = column, line
+    lines[y] = lines[y][:x] + text + lines[y][x + len(text):]
+    display(lines)
+
 
 """
 Map of keys and functions. Every time one of these keys is pressed, the
