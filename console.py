@@ -6,7 +6,7 @@ try:
         'M': 'right', 'K': 'left',
     }
 
-    def get_key():
+    def _get_key():
         char = getch()
         # Arrow keys are returned as two bytes, starting with 224.
         if ord(char) == 224:
@@ -14,7 +14,7 @@ try:
         else:
             return char
 
-    def display(text):
+    def _display(text):
         os.system('cls')
         sys.stdout.write(text)
 
@@ -38,23 +38,42 @@ except ImportError:
     }
 
     # Note: window.getch() returns int, not str.
-    def get_key():
+    def _get_key():
         keycode = window.getch()
         if keycode > 256:
             return special_keys[keycode]
         else:
             return chr(keycode)
 
-    def display(text):
+    def _display(text):
         window.addstr(0, 0, text)
         window.clrtobot()
         window.refresh()
 
+
+def display(text):
+    """
+    Clears the screen and refills it with the given text.
+    """
+    return _display(text)
+
+def get_key():
+    """
+    Waits for user keyboard input and returns the character typed, or special
+    key such as "up".
+    """
+    return _get_key()
+
 def get_valid_key(expected_keys):
+    """
+    Waits until the user presses one of the keys in `expected_keys` and returns
+    it.
+    """
     while True:
         key = get_key()
         if key in expected_keys:
             return key
+
 
 if __name__ == '__main__':
     while True:
