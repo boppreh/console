@@ -50,6 +50,12 @@ except ImportError:
         window.clrtobot()
         window.refresh()
 
+def get_valid_key(expected_keys):
+    while True:
+        key = get_key()
+        if key in expected_keys:
+            return key
+
 if __name__ == '__main__':
     while True:
         key = get_key()
