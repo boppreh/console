@@ -50,19 +50,31 @@ except ImportError:
         window.clrtobot()
         window.refresh()
 
-
 def display(text):
     """
     Clears the screen and refills it with the given text.
     """
     return _display(text)
 
+"""
+Map of keys and functions. Every time one of these keys is pressed, the
+respective function will be called. The pressed key is not returned by
+get_key() or similar.
+"""
+hotkeys = {}
+
 def get_key():
     """
     Waits for user keyboard input and returns the character typed, or special
     key such as "up".
     """
-    return _get_key()
+    while True:
+        key = _get_key()
+        if key in hotkeys:
+            hotkeys[key]()
+            continue
+        else:
+            return key
 
 def get_valid_key(expected_keys):
     """
