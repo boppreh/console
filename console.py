@@ -74,6 +74,13 @@ def get_valid_key(expected_keys):
         if key in expected_keys:
             return key
 
+def get_option(option_by_key):
+    """
+    Given a map key -> option, waits until the user selects a valid key and
+    then returns the associated option.
+    """
+    return option_by_key[get_valid_key(option_by_key)]
+
 def process_input(function_by_key):
     """
     Given a map key -> function, loops receiving user input and invoking the
@@ -82,8 +89,7 @@ def process_input(function_by_key):
     To exit the loop, raise an exception from the invoked function.
     """
     while True:
-        key = get_valid_key(function_by_key)
-        function_by_key[key]()
+        get_option(function_by_key)()
 
 if __name__ == '__main__':
     while True:
