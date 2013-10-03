@@ -51,4 +51,8 @@ except ImportError:
         window.refresh()
 
 if __name__ == '__main__':
-    print get_key()
+    while True:
+        key = get_key()
+        print key
+        if key == 'q':
+            exit()
