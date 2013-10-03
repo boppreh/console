@@ -33,7 +33,7 @@ except ImportError:
     atexit.register(curses.echo)
 
     special_keys = {
-        259: 'forward', 258: 'backward',
+        259: 'up', 258: 'down',
         261: 'right', 260: 'left',
     }
 
