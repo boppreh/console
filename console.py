@@ -54,6 +54,9 @@ def display(text):
     """
     Clears the screen and refills it with the given text.
     """
+    while not isinstance(text, str):
+        text = ''.join(text)
+
     return _display(text)
 
 """
