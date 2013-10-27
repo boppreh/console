@@ -2,8 +2,8 @@ import os, sys
 try:
     from msvcrt import getch
     special_keys = {
-        'H': 'up', 'P': 'down',
-        'M': 'right', 'K': 'left',
+        b'H': 'up', b'P': 'down',
+        b'M': 'right', b'K': 'left',
     }
 
     def _get_key():
@@ -12,7 +12,7 @@ try:
         if ord(char) == 224:
             return special_keys[getch()]
         else:
-            return char
+            return char.decode('utf-8')
 
     def _display(text):
         os.system('cls')
@@ -127,6 +127,6 @@ def process_input(function_by_key):
 if __name__ == '__main__':
     while True:
         key = get_key()
-        print key
+        print(key)
         if key == 'q':
             exit()
