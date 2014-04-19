@@ -50,29 +50,52 @@ except ImportError:
         window.clrtobot()
         window.refresh()
 
+
 current_text = ''
+
+def to_str(text):
+    """
+    Forces a conversion of the given text to type `str`.
+    Support lists of lines, matrices, bytes, numbers, etc.
+    """
+    if isinstance(text, list):
+        if len(text) and isinstance(text[0], list):
+            # Display matrices.
+            return '\n'.join(''.join(line) for line in text)
+        else:
+            # Display list of lines.
+            return '\n'.join(text)
+
+    if isinstance(text, bytes):
+        # Decode bytes.
+        return text.decode('utf-8')
+    
+    # General conversions to string.
+    return str(text)
+
 
 def display(text):
     """
     Clears the screen and refills it with the given text.
     """
-    while not isinstance(text, str):
-        text = ''.join(text)
+    text = to_str(text)
 
+    # Remember text set to use in set_display.
     global current_text
     current_text = text
 
-    return _display(text)
+    _display(text)
 
-def set_display(line, column, text):
+
+def set_display(x, y, text):
     """
     Changes only a portion of the display, keeping the rest constant.
 
     This function assumes the display has been set by the function `display`.
     Multi-character replacements are supported, but multi-line ones not.
     """
+    text = to_str(text)
     lines = current_text.split('\n')
-    x, y = column, line
     lines[y] = lines[y][:x] + text + lines[y][x + len(text):]
     display(lines)
 
@@ -127,6 +150,6 @@ def process_input(function_by_key):
 if __name__ == '__main__':
     while True:
         key = get_key()
-        print(key)
+        display(key)
         if key == 'q':
             exit()
