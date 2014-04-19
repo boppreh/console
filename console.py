@@ -17,6 +17,7 @@ try:
     def _display(text):
         os.system('cls')
         sys.stdout.write(text)
+        sys.stdout.flush()
 
 except ImportError:
     import curses, atexit
