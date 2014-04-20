@@ -65,7 +65,7 @@ def to_str(text):
             return '\n'.join(''.join(map(to_str, line)) for line in text)
         else:
             # Display list of lines.
-            return '\n'.join(text)
+            return '\n'.join(map(to_str, text))
 
     if isinstance(text, bytes):
         # Decode bytes.
