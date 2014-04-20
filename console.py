@@ -62,7 +62,7 @@ def to_str(text):
     if isinstance(text, list):
         if len(text) and isinstance(text[0], list):
             # Display matrices.
-            return '\n'.join(''.join(line) for line in text)
+            return '\n'.join(''.join(map(to_str, line)) for line in text)
         else:
             # Display list of lines.
             return '\n'.join(text)
