@@ -1,16 +1,13 @@
 import os, sys
 try:
     from msvcrt import getch
-    special_keys = {
-        b'H': 'up', b'P': 'down',
-        b'M': 'right', b'K': 'left',
-    }
-
     def _get_key():
         char = getch()
         # Arrow keys are returned as two bytes, starting with 224.
         if ord(char) == 224:
-            return special_keys[getch()]
+            name_by_second_byte = {b'H': 'up',b'P': 'down',
+                                   b'M': 'right', b'K': 'left'}
+            return name_by_second_byte[getch()]
         else:
             return char.decode('utf-8')
 
