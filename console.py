@@ -15,6 +15,7 @@ try:
         os.system('cls')
         sys.stdout.write(text)
         sys.stdout.flush()
+        return True
 
 except ImportError:
     import curses, atexit
@@ -47,9 +48,14 @@ except ImportError:
             return chr(keycode)
 
     def _display(text):
-        window.addstr(0, 0, text)
+        max_height, max_width = window.getmaxyx()
+        lines = text.split('\n')
+        clipped_lines = [line[:max_width] for line in lines][:max_height]
+        clipped_text = '\n'.join(clipped_lines)
+        window.addstr(0, 0, clipped_text)
         window.clrtobot()
         window.refresh()
+        return text == clipped_text
 
 
 current_text = ''
@@ -78,6 +84,9 @@ def to_str(text):
 def display(text):
     """
     Clears the screen and refills it with the given text.
+
+    Returns True if the console managed to print all text without clipping and
+    false otherwise (Linux only, Windows always returns True).
     """
     text = to_str(text)
 
@@ -85,7 +94,7 @@ def display(text):
     global current_text
     current_text = text
 
-    _display(text)
+    return _display(text)
 
 
 def set_display(x, y, text):
@@ -149,8 +158,14 @@ def process_input(function_by_key):
         get_option(function_by_key)()
 
 if __name__ == '__main__':
-    while True:
-        key = get_key()
-        display(key)
-        if key == 'q':
-            exit()
+    import logging
+    logging.basicConfig(level=logging.DEBUG, filename='error_log.txt')
+    try:
+        display('\n' * 30)
+        while True:
+            key = get_key()
+            display(key)
+            if key == 'q':
+                exit()
+    except Exception as e:
+        logging.exception('Error!')
