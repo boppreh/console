@@ -33,6 +33,9 @@ except ImportError:
     special_keys = {
         259: 'up', 258: 'down',
         261: 'right', 260: 'left',
+        263: 'backspace',
+        265: 'f1',
+        266: 'f2',
     }
 
     # Note: window.getch() returns int, not str.
