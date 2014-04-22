@@ -42,7 +42,10 @@ except ImportError:
     # Note: window.getch() returns int, not str.
     def _get_key():
         keycode = window.getch()
-        if keycode > 256:
+        if keycode == 410:
+            # 410 is a console resize event.
+            return None
+        elif keycode > 256:
             return special_keys[keycode]
         else:
             return chr(keycode)
@@ -124,7 +127,9 @@ def get_key():
     """
     while True:
         key = _get_key()
-        if key in hotkeys:
+        if key is None:
+            continue
+        elif key in hotkeys:
             hotkeys[key]()
             continue
         else:
