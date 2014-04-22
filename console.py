@@ -163,14 +163,8 @@ def process_input(function_by_key):
         get_option(function_by_key)()
 
 if __name__ == '__main__':
-    import logging
-    logging.basicConfig(level=logging.DEBUG, filename='error_log.txt')
-    try:
-        display('\n' * 30)
-        while True:
-            key = get_key()
-            display(key)
-            if key == 'q':
-                exit()
-    except Exception as e:
-        logging.exception('Error!')
+    while True:
+        key = get_key()
+        display(key)
+        if key == 'q':
+            exit()
